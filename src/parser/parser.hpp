@@ -1,29 +1,19 @@
 // ************************************************************************** //
 //                                                                            //
 //                                                        :::      ::::::::   //
-//   main.cpp                                           :+:      :+:    :+:   //
+//   parser.hpp                                         :+:      :+:    :+:   //
 //                                                    +:+ +:+         +:+     //
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
-//   Created: 2017/03/20 22:27:03 by mc                #+#    #+#             //
-//   Updated: 2017/03/21 03:09:59 by mc               ###   ########.fr       //
+//   Created: 2017/03/21 03:13:31 by mc                #+#    #+#             //
+//   Updated: 2017/03/21 03:13:59 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
-/*
-** todo
-*/
+#ifndef PARSER_HPP
+# define PARSER_HPP
 
-#include "abstract-vm.hpp"
+# include "../abstract-vm.hpp"
 
-int		main(int ac, char **av)
-{
-	if (ac > 2) {
-		std::cerr << "Usage blabla" << std::endl; //TODO
-		return 42;
-	}
 
-	lexer(*(av + 1));
-
-	return 0;
-}
+#endif

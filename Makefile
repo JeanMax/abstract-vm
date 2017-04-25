@@ -6,17 +6,17 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/03/20 22:55:04 by mc               ###   ########.fr        #
+#    Updated: 2017/04/25 13:38:32 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 NAME =		abstractvm
 
 C_NAME =	main.cpp
-C_LEX =
-C_PARS =
+C_LEX =		lexer.cpp
+C_PARS =	parser.cpp
 C_CALC =
-C_OPE =
+C_OPE =		OperandFactory.cpp
 
 SRCS =		$(C_NAME)	$(C_LEX)	$(C_PARS)	$(C_CALC)	$(C_OPE)
 
@@ -30,13 +30,12 @@ OBJS =		$(SRCS:%.cpp=$(O_DIR)/%.o)
 DEPS =		$(OBJS:%.o=%.d)
 
 
-
 RM =		rm -f
 RMDIR =		rmdir
 MKDIR =		mkdir -p
 MAKE =		make
 MAKEFLAGS =	-j 4
-CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++)
+CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 CPPFLAGS =	-Wall -Wextra -Werror
 LD =		$(CXX)
 LDFLAGS =	$(CPPFLAGS)
@@ -80,7 +79,7 @@ BASIC =		\033[0m
 
 FLAGS =			"CPPFLAGS = $(CPPFLAGS)"
 COOKIE_FLAGS =	$(O_DIR)/.previous-flag
-PREV_FLAGS =	"$(shell cat "$(COOKIE_FLAGS)" 2>/dev/null || echo '$(FLAGS)')"
+PREV_FLAGS =	"$(shell cat "$(COOKIE_FLAGS)" 2>/dev/null || echo 'CPPFLAGS = $(CPPFLAGS)')"
 
 ifndef VERBOSE
 .SILENT:
@@ -103,10 +102,10 @@ debug: all
 sanitize: FLAGS = "CPPFLAGS = -g -ggdb -fsanitize=address,undefined -ferror-limit=5"
 sanitize: all
 
-me_cry: FLAGS = "CPPFLAGS = CPPFLAGS = -Wall -Werror -Wextra -Wpedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline" #-Wcast-qual
+me_cry: FLAGS = "CPPFLAGS = -Wall -Werror -Wextra -Wpedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wcast-align -Wconversion -Wshadow -Weffc++ -Wredundant-decls -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Winline" #-Wcast-qual
 me_cry: all
 
-
+re: FLAGS = $(PREV_FLAGS)
 re: fclean all
 
 -include $(DEPS)
@@ -114,7 +113,8 @@ re: fclean all
 $(NAME): $(OBJS)
 	@$(ECHO) "$(BLUE)$(OBJS) $(LIBS) $(WHITE)->$(RED) $@ $(BASIC)"
 	$(CXX) $(LDFLAGS) $(I_DIR) $(OBJS) $(LDLIBS) -o $@
-	@$(ECHO) "$(WHITE)flags:$(BASIC) $(CPPFLAGS)"
+	@$(ECHO) "$(WHITE)cppflags:$(BASIC) $(CPPFLAGS)"
+	@$(ECHO) "$(WHITE)ccpflags:$(BASIC) $(CCPFLAGS)"
 	@$(ECHO) "$(WHITE)compi:$(BASIC) $(CXX)"
 
 $(O_DIR)/%.o: %.cpp

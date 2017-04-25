@@ -1,29 +1,29 @@
 // ************************************************************************** //
 //                                                                            //
 //                                                        :::      ::::::::   //
-//   main.cpp                                           :+:      :+:    :+:   //
+//   lexer.hpp                                          :+:      :+:    :+:   //
 //                                                    +:+ +:+         +:+     //
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
-//   Created: 2017/03/20 22:27:03 by mc                #+#    #+#             //
-//   Updated: 2017/03/21 03:09:59 by mc               ###   ########.fr       //
+//   Created: 2017/03/21 03:02:52 by mc                #+#    #+#             //
+//   Updated: 2017/04/25 12:44:45 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
-/*
-** todo
-*/
+#ifndef LEXER_HPP
+# define LEXER_HPP
 
-#include "abstract-vm.hpp"
+# include "../abstract-vm.hpp"
 
-int		main(int ac, char **av)
-{
-	if (ac > 2) {
-		std::cerr << "Usage blabla" << std::endl; //TODO
-		return 42;
-	}
+# include <fstream>
+# include <regex>
 
-	lexer(*(av + 1));
+# define COMMENT_REGEX "(;+.*$|$)"
+# define START_REGEX "^[[:space:]]*"
+# define END_REGEX   "[[:space:]]*" COMMENT_REGEX
+# define N_REGEX     "[-]?[0-9]+"
+# define Z_REGEX     "[-]?[0-9]+\\.[0-9]+"
+# define SEP_CHAR    '\n'
 
-	return 0;
-}
+
+#endif
