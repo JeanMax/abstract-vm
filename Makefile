@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/04/25 13:38:32 by mc               ###   ########.fr        #
+#    Updated: 2017/04/25 15:38:59 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,7 +14,7 @@ NAME =		abstractvm
 
 C_NAME =	main.cpp
 C_LEX =		lexer.cpp
-C_PARS =	parser.cpp
+C_PARS =	parser.cpp operators.cpp
 C_CALC =
 C_OPE =		OperandFactory.cpp
 

@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 18:17:40 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 13:35:56 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 14:44:55 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -58,27 +58,27 @@ static int stoi_base10(std::string const &s, std::size_t *pos = 0)
 
 IOperand const * OperandFactory::createInt8( std::string const & value ) const
 {
-	return new Operand<Int8, t_int8, &stoi_base10>(value);
+	return new Operand<Int8, t_int8, &stoi_base10>(value, this);
 }
 
 IOperand const * OperandFactory::createInt16( std::string const & value ) const
 {
-	return new Operand<Int16, t_int16, &stoi_base10>(value);
+	return new Operand<Int16, t_int16, &stoi_base10>(value, this);
 }
 
 IOperand const * OperandFactory::createInt32( std::string const & value ) const
 {
-	return new Operand<Int32, t_int32, &stoi_base10>(value);
+	return new Operand<Int32, t_int32, &stoi_base10>(value, this);
 }
 
 IOperand const * OperandFactory::createFloat( std::string const & value ) const
 {
-	return new Operand<Float, float, &std::stof>(value);
+	return new Operand<Float, float, &std::stof>(value, this);
 }
 
 IOperand const * OperandFactory::createDouble( std::string const & value ) const
 {
-	return new Operand<Double, double, &std::stod>(value);
+	return new Operand<Double, double, &std::stod>(value, this);
 }
 
 

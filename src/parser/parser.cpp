@@ -6,46 +6,86 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:02 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 13:33:13 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 15:41:33 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "parser.hpp"
 
-static eOperandType get_type(std::string type)
+OperandFactory const *g_factory = new OperandFactory; //TODO: delete me
+
+static eOperandType get_type(std::string s_type)
 {
-	switch (type[3]) {
-	case '8':
-		return Int8;
-		break;
-	case '1':
-		return Int16;
-		break;
-	case '3':
-		return Int32;
-		break;
-	case 'a':
-		return Float;
-		break;
-	case 'b':
-		return Double;
-		break;
+	switch (s_type[3]) {
+		 case '8':
+			 return Int8;
+			 break;
+		 case '1':
+			 return Int16;
+			 break;
+		 case '3':
+			 return Int32;
+			 break;
+		 case 'a':
+			 return Float;
+			 break;
+		 case 'b':
+			 return Double;
+			 break;
 	}
 
-	return Unknown;		;//TODO: error
-
+	return Unknown;		//TODO: error
 }
 
-void parse_operand(std::string s_type, std::string s_value)
+static eOperator get_operator(std::string s_operator)
 {
-	std::cout << "type: " << s_type << std::endl;
-	std::cout << "value: " << s_value << std::endl;
+	if (s_operator == "assert")
+		return Assert;
+	if (s_operator == "push")
+		return Push;
+	if (s_operator == "pop")
+		return Pop;
+	if (s_operator == "dump")
+		return Dump;
+	if (s_operator == "add")
+		return Add;
+	if (s_operator == "sub")
+		return Sub;
+	if (s_operator == "mul")
+		return Mul;
+	if (s_operator == "div")
+		return Div;
+	if (s_operator == "mod")
+		return Mod;
+	if (s_operator == "print")
+		return Print;
+	if (s_operator == "exit")
+		return Exit;
 
-	// eOperandType type = get_type(s_type);
-	// double d; //std:stod
-	// float f;//std:stof
-	// int i;//std:stoi
+	return Zboub;		//TODO: error
+}
 
+IOperand const *parse_operand(std::string s_type, std::string s_value)
+{
+	return g_factory->createOperand(get_type(s_type), s_value);
+}
 
-	std::cout << "TYPE: " << get_type(s_type) << std::endl;
+void parse_operator(std::string s_operator, IOperand const *operand)
+{
+	static void (*f[])(IOperand const *) = {
+		do_assert,
+		do_push,
+		do_pop,
+		do_dump,
+		do_add,
+		do_sub,
+		do_mul,
+		do_div,
+		do_mod,
+		do_print,
+		do_exit,
+	};
+
+	DEBUG("Operator: " << s_operator);
+	f[get_operator(s_operator)](operand);
 }

@@ -6,14 +6,25 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:30:49 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 12:48:37 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 15:09:55 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef IOPERAND_HPP
 # define IOPERAND_HPP
 
-# include "../abstract-vm.hpp"
+# include <string>
+
+typedef enum OperandType
+{
+	Int8 =   0,
+	Int16 =  1,
+	Int32 =  2,
+	Float =  3,
+	Double = 4,
+	Unknown = 42
+} eOperandType;
+# define NUMBER_OF_TYPES 5
 
 class IOperand
 {

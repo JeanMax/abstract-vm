@@ -6,16 +6,19 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 13:35:44 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 16:08:52 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef OPERAND_TEMPLATE_HPP
 # define OPERAND_TEMPLATE_HPP
 
-# include "IOperand.hpp"
+# include "../abstract-vm.hpp"
 # include "OperandFactory.hpp"
+
 # include <cmath> //fmod
+
+# define DEBUG_TYPE(t) (!t ? "int8" : (t == 1 ? "int16" : (t == 2 ? "int32" : (t == 3 ? "float" : "double"))))
 
 typedef int    t_int8;
 typedef int    t_int16;
@@ -49,14 +52,15 @@ class Operand : public IOperand
 				OperandFactory  const *factory = NULL) : _str(str),
 														 _factory(factory)
 		{
-				DEBUG("Operand constructor");
-
 				this->_precision = OPERAND_TYPE;
 				this->_type = OPERAND_TYPE;
 				// this->_value = STR_TO_TYPE(str, 0); //catch errors
 				if (!factory) {
 					this->_factory = new OperandFactory;
 				}
+
+				DEBUG("Operand constructor: "
+					  << DEBUG_TYPE(this->_type) << "(" << str <<")");
 		}
 
 		Operand(Operand const &copy) : IOperand(copy)
@@ -72,7 +76,8 @@ class Operand : public IOperand
 		*/
 		~Operand(void)
 		{
-			DEBUG("Operand destructor");
+			DEBUG("Operand destructor: "
+				  << DEBUG_TYPE(this->_type) << "(" << this->_str <<")");
 		}
 
 
@@ -129,17 +134,6 @@ class Operand : public IOperand
 			return this->_type;
 		}
 
-		// TYPENAME          getValue(void) const
-		// {
-		// 	return this->_value;
-		// }
-
-		// void              setValue(TYPENAME value)
-		// {
-		// 	this->_value = value;
-		// 	this->_str = std::to_string(value);
-		// }
-
 
 		/*
 		** private
@@ -150,21 +144,21 @@ class Operand : public IOperand
 			TYPENAME rhs = STR_TO_TYPE(rhs_str, 0);
 
 			switch(op) {
-			case OP_ADD:
-				ret += rhs;
-				break;
-			case OP_SUB:
-				ret -= rhs;
-				break;
-			case OP_MUL:
-				ret *= rhs;
-				break;
-			case OP_DIV:
-				ret /= rhs;
-				break;
-			case OP_MOD:
-				ret = static_cast<TYPENAME>(fmod(static_cast<double>(ret), static_cast<double>(rhs))); //TODO
-				break;
+				case OP_ADD:
+					ret += rhs;
+					break;
+				case OP_SUB:
+					ret -= rhs;
+					break;
+				case OP_MUL:
+					ret *= rhs;
+					break;
+				case OP_DIV:
+					ret /= rhs;
+					break;
+				case OP_MOD:
+					ret = static_cast<TYPENAME>(fmod(static_cast<double>(ret), static_cast<double>(rhs))); //TODO
+					break;
 			}
 
 			return std::to_string(ret);
@@ -179,40 +173,34 @@ class Operand : public IOperand
 					this->getNewValue(rhs.toString(), op)
 				);
 			}
-			//TODO: else
 
+			IOperand const *op_tmp = this->_factory->createOperand(
+				rhs.getType(),
+				this->_str
+			);
+			IOperand const *op_new;
+			switch(op) {
+				case OP_ADD:
+					op_new = *op_tmp + rhs;
+					break;
+				case OP_SUB:
+					op_new = *op_tmp - rhs;
+					break;
+				case OP_MUL:
+					op_new = *op_tmp * rhs;
+					break;
+				case OP_DIV:
+					op_new = *op_tmp / rhs;
+					break;
+				case OP_MOD:
+					op_new = *op_tmp % rhs;
+					break;
+			}
+			delete op_tmp;
 
-
-			return NULL;
+			return op_new;
 			//TODO: catch error
 		}
 };
 
 #endif
-
-
-
-/*
-** private
-*/
-// Operand const * toInt8(IOperand const & op)
-// {
-// 	Operand const *ret;
-
-// 	switch (op.getType()) {
-// 	case Int8:
-// 		return new Operand(static_cast<Operand const &>(op));
-// 		break;
-// 	case Int16:
-// 		break;
-// 	case Int32:
-// 		break;
-// 	case Float:
-// 		break;
-// 	case Double:
-// 		break;
-// 	default:
-// 	}
-
-// 	return ret;
-// }
