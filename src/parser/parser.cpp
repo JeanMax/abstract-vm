@@ -6,13 +6,13 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:02 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 15:41:33 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 16:51:41 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "parser.hpp"
 
-OperandFactory const *g_factory = new OperandFactory; //TODO: delete me
+extern OperandFactory const *g_factory;
 
 static eOperandType get_type(std::string s_type)
 {

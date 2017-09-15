@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:31 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 15:52:36 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 16:55:35 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,9 +14,7 @@
 # define PARSER_HPP
 
 # include <cstring>
-# include <forward_list>
 # include "../abstract-vm.hpp"
-# include "../operand/OperandFactory.hpp"
 
 typedef enum Operator
 {

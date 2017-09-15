@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 16:08:52 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 17:20:32 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,6 +17,7 @@
 # include "OperandFactory.hpp"
 
 # include <cmath> //fmod
+# include <sstream>
 
 # define DEBUG_TYPE(t) (!t ? "int8" : (t == 1 ? "int16" : (t == 2 ? "int32" : (t == 3 ? "float" : "double"))))
 
@@ -49,15 +50,19 @@ class Operand : public IOperand
 		** constructor
 		*/
 		Operand(std::string const &str = "0",
-				OperandFactory  const *factory = NULL) : _str(str),
-														 _factory(factory)
+				OperandFactory  const *factory = NULL) : _factory(factory)
 		{
+				std::stringstream ss;
+
 				this->_precision = OPERAND_TYPE;
 				this->_type = OPERAND_TYPE;
-				// this->_value = STR_TO_TYPE(str, 0); //catch errors
+
 				if (!factory) {
 					this->_factory = new OperandFactory;
 				}
+
+				ss << STR_TO_TYPE(str, 0); //TODO: catch errors
+				this->_str = ss.str();
 
 				DEBUG("Operand constructor: "
 					  << DEBUG_TYPE(this->_type) << "(" << str <<")");
@@ -140,28 +145,30 @@ class Operand : public IOperand
 		*/
 		std::string          getNewValue(std::string const & rhs_str, eOperator op) const
 		{
-			TYPENAME ret = STR_TO_TYPE(this->_str, 0);
+			TYPENAME lhs = STR_TO_TYPE(this->_str, 0);
 			TYPENAME rhs = STR_TO_TYPE(rhs_str, 0);
+			std::stringstream ss;
 
 			switch(op) {
 				case OP_ADD:
-					ret += rhs;
+					lhs += rhs;
 					break;
 				case OP_SUB:
-					ret -= rhs;
+					lhs -= rhs;
 					break;
 				case OP_MUL:
-					ret *= rhs;
+					lhs *= rhs;
 					break;
 				case OP_DIV:
-					ret /= rhs;
+					lhs /= rhs;
 					break;
 				case OP_MOD:
-					ret = static_cast<TYPENAME>(fmod(static_cast<double>(ret), static_cast<double>(rhs))); //TODO
+					lhs = static_cast<TYPENAME>(fmod(static_cast<double>(lhs), static_cast<double>(rhs))); //TODO
 					break;
 			}
 
-			return std::to_string(ret);
+			ss << lhs;
+			return ss.str();
 			//TODO: catch error
 		}
 

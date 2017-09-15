@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 18:17:40 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 14:44:55 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 16:44:18 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -42,8 +42,7 @@ OperandFactory::~OperandFactory(void)
 */
 OperandFactory const &OperandFactory::operator=(OperandFactory const &copy)
 {
-	(void)copy;
-	// *this = copy; //TODO
+	(void)copy; //TODO
 	return *this;
 }
 

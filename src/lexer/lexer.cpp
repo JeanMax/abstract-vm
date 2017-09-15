@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:02:05 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 15:14:10 by mc               ###   ########.fr       //
+//   Updated: 2017/04/25 16:49:37 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -49,6 +49,9 @@ void lexer(char *filename)
 
 	while (filename ? !file.eof() : !!std::cin) {
 		getline(filename ? file : std::cin, input, SEP_CHAR); //TODO: catch error
+		if (!filename && input == STDIN_END) {
+			break;
+		}
 
 		if (regex_match(input, match, instr_reg)) {
 			parse_operator(match[1], NULL);
