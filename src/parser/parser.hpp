@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:31 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 22:35:38 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 23:50:25 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -18,22 +18,20 @@
 
 typedef enum Operator
 {
-	Assert = 0,
-	Push =   1,
-	Pop =    2,
-	Dump =   3,
-	Add =    4,
-	Sub =    5,
-	Mul =    6,
-	Div =    7,
-	Mod =    8,
-	Print =  9,
-	Exit =   10,
-	Zboub =   42
+    Assert = 0,
+    Push =   1,
+    Pop =    2,
+    Dump =   3,
+    Add =    4,
+    Sub =    5,
+    Mul =    6,
+    Div =    7,
+    Mod =    8,
+    Print =  9,
+    Exit =   10,
+    Zboub =   42
 } eOperator;
 # define NUMBER_OF_OPERATORS 11
-
-
 
 /*
 ** operators.cpp
