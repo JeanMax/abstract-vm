@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 22:29:30 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 22:39:50 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -37,15 +37,18 @@ typedef enum Operator
 } eOperator;
 # define NUMBER_OF_OPERATORS 5
 
-template <eOperandType OPERAND_TYPE, typename TYPENAME, TYPENAME (*STR_TO_TYPE)(std::string const &, std::size_t *)>
+template <
+    eOperandType OPERAND_TYPE,
+    typename     TYPENAME,
+    TYPENAME     (*STR_TO_TYPE)(std::string const &, std::size_t *)
+>
 class Operand : public IOperand
 {
 	private:
-		std::string  _str;
-		int          _precision;
-		eOperandType _type;
-		// TYPENAME     _value;
-		OperandFactory  const *_factory;
+		std::string           _str;
+		int                   _precision;
+		eOperandType          _type;
+		OperandFactory const *_factory;
 
 	public:
 		/*
@@ -91,33 +94,33 @@ class Operand : public IOperand
 		/*
 		** operator overload
 		*/
-		Operand const &operator=(Operand const &copy) const
+		Operand const &     operator=(Operand const &copy) const
 		{
 			*this = copy; //TODO?
 			return *this;
 		}
 
-		IOperand const *  operator+(IOperand const & rhs) const
+		IOperand const *    operator+(IOperand const &rhs) const
 		{
 			return this->do_op(rhs, OP_ADD);
 		}
 
-		IOperand const *  operator-(IOperand const & rhs) const
+		IOperand const *    operator-(IOperand const &rhs) const
 		{
 			return this->do_op(rhs, OP_SUB);
 		}
 
-		IOperand const *  operator*(IOperand const & rhs) const
+		IOperand const *    operator*(IOperand const &rhs) const
 		{
 			return this->do_op(rhs, OP_MUL);
 		}
 
-		IOperand const *  operator/(IOperand const & rhs) const
+		IOperand const *    operator/(IOperand const &rhs) const
 		{
 			return this->do_op(rhs, OP_DIV);
 		}
 
-		IOperand const *  operator%(IOperand const & rhs) const
+		IOperand const *    operator%(IOperand const &rhs) const
 		{
 			return this->do_op(rhs, OP_MOD);
 		}
@@ -131,12 +134,12 @@ class Operand : public IOperand
 			return this->_str;
 		}
 
-		int               getPrecision(void) const
+		int                 getPrecision(void) const
 		{
 			return this->_precision;
 		}
 
-		eOperandType      getType(void) const
+		eOperandType        getType(void) const
 		{
 			return this->_type;
 		}
@@ -145,7 +148,7 @@ class Operand : public IOperand
 		/*
 		** private
 		*/
-		std::string          getNewValue(std::string const & rhs_str, eOperator op) const
+		std::string          getNewValue(std::string const &rhs_str, eOperator op) const
 		{
 			TYPENAME lhs_val = STR_TO_TYPE(this->_str, 0);
 			TYPENAME rhs_val = STR_TO_TYPE(rhs_str, 0);
@@ -185,7 +188,7 @@ class Operand : public IOperand
 			//TODO: catch error
 		}
 
-		IOperand const *  do_op(IOperand const & rhs, eOperator op) const
+		IOperand const *     do_op(IOperand const &rhs, eOperator op) const
 		{
 			if (rhs.getType() <= this->_type) {
 				return this->_factory->createOperand(

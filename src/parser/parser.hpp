@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:31 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 16:55:35 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 22:35:38 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -49,6 +49,5 @@ void do_div(IOperand const *operand);
 void do_mod(IOperand const *operand);
 void do_print(IOperand const *operand);
 void do_exit(IOperand const *operand);
-
 
 #endif

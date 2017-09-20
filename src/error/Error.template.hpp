@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/20 21:48:43 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 22:27:48 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 22:42:23 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -33,7 +33,7 @@ class Error: public MOTHER_EXCEPTION {
             DEBUG(this->what() << " constructor");
         }
 
-        Error(Error const &copy) throw() : std::domain_error(copy.what())
+        Error(Error const &copy) throw() : MOTHER_EXCEPTION(copy.what())
         {
             *this = copy;
             DEBUG(copy.what() << " copy");
