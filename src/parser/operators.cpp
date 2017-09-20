@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 15:52:09 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 19:18:40 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -72,14 +72,14 @@ void do_add(IOperand const *operand)
 	if (g_stack.empty())
 		kthxbye(EXIT_FAILURE); //TODO
 
-	IOperand const *lhs = g_stack.top();
+	IOperand const *rhs = g_stack.top();
 	g_stack.pop();
 	if (g_stack.empty()) {
-		delete lhs;
+		delete rhs;
 		kthxbye(EXIT_FAILURE); //TODO
 	}
 
-	IOperand const *rhs = g_stack.top();
+	IOperand const *lhs = g_stack.top();
 	g_stack.pop();
 
 	g_stack.push(*lhs + *rhs);
@@ -94,14 +94,14 @@ void do_sub(IOperand const *operand)
 	if (g_stack.empty())
 		kthxbye(EXIT_FAILURE); //TODO
 
-	IOperand const *lhs = g_stack.top();
+	IOperand const *rhs = g_stack.top();
 	g_stack.pop();
 	if (g_stack.empty()) {
-		delete lhs;
+		delete rhs;
 		kthxbye(EXIT_FAILURE); //TODO
 	}
 
-	IOperand const *rhs = g_stack.top();
+	IOperand const *lhs = g_stack.top();
 	g_stack.pop();
 
 	g_stack.push(*lhs - *rhs);
@@ -116,14 +116,14 @@ void do_mul(IOperand const *operand)
 	if (g_stack.empty())
 		kthxbye(EXIT_FAILURE); //TODO
 
-	IOperand const *lhs = g_stack.top();
+	IOperand const *rhs = g_stack.top();
 	g_stack.pop();
 	if (g_stack.empty()) {
-		delete lhs;
+		delete rhs;
 		kthxbye(EXIT_FAILURE); //TODO
 	}
 
-	IOperand const *rhs = g_stack.top();
+	IOperand const *lhs = g_stack.top();
 	g_stack.pop();
 
 	g_stack.push(*lhs * *rhs);
@@ -138,17 +138,21 @@ void do_div(IOperand const *operand)
 	if (g_stack.empty())
 		kthxbye(EXIT_FAILURE); //TODO
 
-	IOperand const *lhs = g_stack.top();
+	IOperand const *rhs = g_stack.top();
 	g_stack.pop();
 	if (g_stack.empty()) {
-		delete lhs;
+		delete rhs;
 		kthxbye(EXIT_FAILURE); //TODO
 	}
 
-	IOperand const *rhs = g_stack.top();
+	IOperand const *lhs = g_stack.top();
 	g_stack.pop();
 
-	g_stack.push(*lhs / *rhs);
+    try {
+        g_stack.push(*lhs / *rhs);
+    } catch (DivideZeroError const &e) {
+        ERROR(e.what());
+    }
 	delete lhs;
 	delete rhs;
 }
@@ -160,14 +164,14 @@ void do_mod(IOperand const *operand)
 	if (g_stack.empty())
 		kthxbye(EXIT_FAILURE); //TODO
 
-	IOperand const *lhs = g_stack.top();
+	IOperand const *rhs = g_stack.top();
 	g_stack.pop();
 	if (g_stack.empty()) {
-		delete lhs;
+		delete rhs;
 		kthxbye(EXIT_FAILURE); //TODO
 	}
 
-	IOperand const *rhs = g_stack.top();
+	IOperand const *lhs = g_stack.top();
 	g_stack.pop();
 
 	g_stack.push(*lhs % *rhs);

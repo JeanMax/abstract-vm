@@ -103,7 +103,11 @@ p
 
 # TODO: test stdin vs file
 
+# TODO: underflow error
 
+# TODO: no exit instruction
+
+# TODO: modulo zero error
 
 
 

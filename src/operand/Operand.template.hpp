@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 17:20:32 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 19:24:46 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -20,6 +20,7 @@
 # include <sstream>
 
 # define DEBUG_TYPE(t) (!t ? "int8" : (t == 1 ? "int16" : (t == 2 ? "int32" : (t == 3 ? "float" : "double"))))
+# define DEBUG_OP(o) (!o ? "+" : (o == 1 ? "-" : (o == 2 ? "*" : (o == 3 ? "/" : "%"))))
 
 typedef int    t_int8;
 typedef int    t_int16;
@@ -145,29 +146,40 @@ class Operand : public IOperand
 		*/
 		std::string          getNewValue(std::string const & rhs_str, eOperator op) const
 		{
-			TYPENAME lhs = STR_TO_TYPE(this->_str, 0);
-			TYPENAME rhs = STR_TO_TYPE(rhs_str, 0);
+			TYPENAME lhs_val = STR_TO_TYPE(this->_str, 0);
+			TYPENAME rhs_val = STR_TO_TYPE(rhs_str, 0);
 			std::stringstream ss;
+
+            DEBUG(lhs_val << " " << DEBUG_OP(op) << " " << rhs_val);
+            if (!static_cast<bool>(rhs_val)) {
+                if (op == OP_DIV) {
+                    throw DivideZeroError();
+                }
+                // else if (op == OP_MOD) {
+                //     throw ModuloZeroError();
+                // }
+            }
 
 			switch(op) {
 				case OP_ADD:
-					lhs += rhs;
+					lhs_val += rhs_val;
 					break;
 				case OP_SUB:
-					lhs -= rhs;
+					lhs_val -= rhs_val;
 					break;
 				case OP_MUL:
-					lhs *= rhs;
+					lhs_val *= rhs_val;
 					break;
 				case OP_DIV:
-					lhs /= rhs;
+					lhs_val /= rhs_val;
 					break;
 				case OP_MOD:
-					lhs = static_cast<TYPENAME>(fmod(static_cast<double>(lhs), static_cast<double>(rhs))); //TODO
+					lhs_val = static_cast<TYPENAME>(fmod(static_cast<double>(lhs_val), static_cast<double>(rhs_val))); //TODO
 					break;
 			}
 
-			ss << lhs;
+            DEBUG("= " << lhs_val);
+			ss << lhs_val;
 			return ss.str();
 			//TODO: catch error
 		}

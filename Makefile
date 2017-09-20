@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/20 15:52:45 by mc               ###   ########.fr        #
+#    Updated: 2017/09/20 18:52:04 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -17,12 +17,13 @@ C_LEX =		lexer.cpp
 C_PARS =	parser.cpp operators.cpp
 C_CALC =
 C_OPE =		OperandFactory.cpp
+C_ERR =		DivideZeroError.cpp
 
-SRCS =		$(C_NAME)	$(C_LEX)	$(C_PARS)	$(C_CALC)	$(C_OPE)
+SRCS =		$(C_NAME)	$(C_LEX)	$(C_PARS)	$(C_CALC)	$(C_OPE)	$(C_ERR)
 
 TEST =		test.sh
 
-VPATH =		src:src/lexer:src/parser:src/calculator:src/operand
+VPATH =		src:src/lexer:src/parser:src/calculator:src/operand:src/error
 O_DIR =		obj
 T_DIR =		./test
 I_DIR =
@@ -81,7 +82,9 @@ FLAGS =			"CPPFLAGS = $(CPPFLAGS)"
 COOKIE_FLAGS =	$(O_DIR)/.previous-flag
 PREV_FLAGS =	"$(shell cat "$(COOKIE_FLAGS)" 2>/dev/null || echo 'CPPFLAGS = $(CPPFLAGS)')"
 
-ifndef VERBOSE
+ifdef VERBOSE
+CCFLAGS += -D VERBOSE
+else
 .SILENT:
 endif
 
@@ -114,12 +117,12 @@ $(NAME): $(OBJS)
 	@$(ECHO) "$(BLUE)$(OBJS) $(LIBS) $(WHITE)->$(RED) $@ $(BASIC)"
 	$(CXX) $(LDFLAGS) $(I_DIR) $(OBJS) $(LDLIBS) -o $@
 	@$(ECHO) "$(WHITE)cppflags:$(BASIC) $(CPPFLAGS)"
-	@$(ECHO) "$(WHITE)ccpflags:$(BASIC) $(CCPFLAGS)"
+	@$(ECHO) "$(WHITE)ccflags:$(BASIC) $(CCFLAGS)"
 	@$(ECHO) "$(WHITE)compi:$(BASIC) $(CXX)"
 
 $(O_DIR)/%.o: %.cpp
 	@$(ECHO) "$(WHITE)$<\t->$(BLUE) $@ $(BASIC)"
-	$(CXX) $(CCPFLAGS) $(CPPFLAGS) $(I_DIR) -MMD -c $< -o $@
+	$(CXX) $(CCFLAGS) $(CPPFLAGS) $(I_DIR) -MMD -c $< -o $@
 
 $(O_DIR):
 	$(MKDIR) $(O_DIR)

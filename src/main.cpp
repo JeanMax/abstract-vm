@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:27:03 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 15:33:09 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 19:22:19 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -34,7 +34,7 @@ int kthxbye(int status)
 int		main(int ac, char **av)
 {
 	if (ac > 2) {
-		std::cerr << "Usage: " << *av << "[FILE]" << std::endl;
+		ERROR("Usage: " << *av << " [FILE]");
 		return kthxbye(EXIT_FAILURE);
 	}
 
