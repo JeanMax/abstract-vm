@@ -2,6 +2,9 @@
 
 # FATAL=t
 
+NAME=avm
+DATA_DIR=data
+
 CLR_GREEN="\033[32;01m"
 CLR_RED="\033[31;01m"
 CLR_RESET="\033[0m"
@@ -48,7 +51,7 @@ function test_vm() {
 
 	echo -n "$ctrl" > $CTRL_LOG_FILE
 
-    ./abstractvm << EOF > $TEST_LOG_FILE 2>&1
+    ./$NAME << EOF > $TEST_LOG_FILE 2>&1
 $input
 EOF
 
@@ -64,33 +67,33 @@ EOF
 test_vm "zboub" "'zboub': nop.
 "
 
-test_vm "$(< ./data/bobo.avm)" "20.2
+test_vm "$(< $DATA_DIR/bobo.avm)" "20.2
 "
 
-test_vm "$(< ./data/example.avm)" "42
+test_vm "$(< $DATA_DIR/example.avm)" "42
 42.42
 3341.25
 "
 
-test_vm "$(< ./data/zero_divide_error.avm)" "zero divide error
+test_vm "$(< $DATA_DIR/zero_divide_error.avm)" "zero divide error
 "
 
-test_vm "$(< ./data/overflow_error.avm)" "overflow error
+test_vm "$(< $DATA_DIR/overflow_error.avm)" "overflow error
 "
 
-test_vm "$(< ./data/syntax_error.avm)" "syntax error
+test_vm "$(< $DATA_DIR/syntax_error.avm)" "syntax error
 "
 
-test_vm "$(< ./data/empty_stack_error.avm)" "empty stack error
+test_vm "$(< $DATA_DIR/empty_stack_error.avm)" "empty stack error
 "
 
-test_vm "$(< ./data/assert_error.avm)" "assert error
+test_vm "$(< $DATA_DIR/assert_error.avm)" "assert error
 "
 
-test_vm "$(< ./data/missing_operand_error.avm)" "missing operand error
+test_vm "$(< $DATA_DIR/missing_operand_error.avm)" "missing operand error
 "
 
-test_vm "$(< ./data/plop.avm)" "p
+test_vm "$(< $DATA_DIR/plop.avm)" "p
 l
 o
 p

@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:02:05 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 16:49:37 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 23:43:04 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -43,12 +43,22 @@ void lexer(char *filename)
 	std::string   input;
 	std::smatch   match;
 
+    file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	if (filename) {
-		file.open(filename); //TODO: catch error
+        try {
+            file.open(filename);
+        } catch (const std::ifstream::failure &e) {
+            ERROR("Could not open '" << filename << "'.");
+        }
 	}
 
 	while (filename ? !file.eof() : !!std::cin) {
-		getline(filename ? file : std::cin, input, SEP_CHAR); //TODO: catch error
+        try {
+            getline(filename ? file : std::cin, input, SEP_CHAR);
+        } catch (const std::ifstream::failure &e) {
+            ERROR("Could not read '" << (filename ?: "stdin") << "'.");
+        }
+
 		if (!filename && input == STDIN_END) {
 			break;
 		}
@@ -62,12 +72,16 @@ void lexer(char *filename)
 				parse_operator(match[1], parse_operand(match[6], match[7]));
 			}
 		} else if (!regex_match(input, empty_reg)) {
-			std::cout << "'" << input << "'" << ": nop." << std::endl; //TODO
+            WARNING("Syntax error: '" << input << "'.");
 		}
 	}
 
 
 	if (filename) {
-		file.close(); //TODO: catch error
+        try {
+            file.close();
+        } catch (const std::ifstream::failure &e) {
+            ERROR("Could not close '" << filename << "'.");
+        }
 	}
 }

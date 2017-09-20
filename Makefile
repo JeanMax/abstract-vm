@@ -6,11 +6,11 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/20 21:55:44 by mc               ###   ########.fr        #
+#    Updated: 2017/09/20 22:58:07 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME =		abstractvm
+NAME =		avm
 
 C_NAME =	main.cpp
 C_LEX =		lexer.cpp

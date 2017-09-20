@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 22:39:50 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 22:45:36 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -96,7 +96,7 @@ class Operand : public IOperand
 		*/
 		Operand const &     operator=(Operand const &copy) const
 		{
-			*this = copy; //TODO?
+			*this = copy;
 			return *this;
 		}
 

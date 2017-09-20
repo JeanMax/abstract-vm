@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 22:28:32 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 23:44:17 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -54,7 +54,7 @@ void do_dump(IOperand const *operand)
     std::stack<IOperand const *> rev_stack = {};
 
     while (!g_stack.empty()) {
-		std::cout << g_stack.top()->toString() << std::endl;
+		MSG(g_stack.top()->toString());
         rev_stack.push(g_stack.top());
         g_stack.pop();
     }
@@ -152,8 +152,9 @@ void do_div(IOperand const *operand)
     try {
         g_stack.push(*lhs / *rhs);
     } catch (Error<std::domain_error> const &e) {
-        ERROR(e.what());
+        WARNING(e.what());
     }
+
 	delete lhs;
 	delete rhs;
 }
@@ -175,13 +176,20 @@ void do_mod(IOperand const *operand)
 	IOperand const *lhs = g_stack.top();
 	g_stack.pop();
 
-	g_stack.push(*lhs % *rhs);
+    try {
+        g_stack.push(*lhs % *rhs);
+    } catch (Error<std::domain_error> const &e) {
+        WARNING(e.what());
+    }
+
 	delete lhs;
 	delete rhs;
 }
 
 void do_print(IOperand const *operand)
 {
+	(void)operand;
+
 	if (g_stack.empty())
 		kthxbye(EXIT_FAILURE); //TODO
 
@@ -190,14 +198,12 @@ void do_print(IOperand const *operand)
 	if (top->getType() != Int8)
 		kthxbye(EXIT_FAILURE); //TODO
 
-	std::cout << static_cast<char>(std::stoi(top->toString())) << std::endl;
-
-	(void)operand;
+	MSG(static_cast<char>(std::stoi(top->toString())));
 }
 
 void do_exit(IOperand const *operand)
 {
 	(void)operand;
 
-	kthxbye(0); //TODO
+	kthxbye(EXIT_SUCCESS);
 }
