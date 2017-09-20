@@ -6,11 +6,12 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 19:18:40 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 22:28:32 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "parser.hpp"
+#include "../error/Error.template.hpp"
 
 extern std::stack<IOperand const *> g_stack;
 
@@ -150,7 +151,7 @@ void do_div(IOperand const *operand)
 
     try {
         g_stack.push(*lhs / *rhs);
-    } catch (DivideZeroError const &e) {
+    } catch (Error<std::domain_error> const &e) {
         ERROR(e.what());
     }
 	delete lhs;

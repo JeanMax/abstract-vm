@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/20 18:52:04 by mc               ###   ########.fr        #
+#    Updated: 2017/09/20 21:55:44 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -17,9 +17,8 @@ C_LEX =		lexer.cpp
 C_PARS =	parser.cpp operators.cpp
 C_CALC =
 C_OPE =		OperandFactory.cpp
-C_ERR =		DivideZeroError.cpp
 
-SRCS =		$(C_NAME)	$(C_LEX)	$(C_PARS)	$(C_CALC)	$(C_OPE)	$(C_ERR)
+SRCS =		$(C_NAME)	$(C_LEX)	$(C_PARS)	$(C_CALC)	$(C_OPE)
 
 TEST =		test.sh
 

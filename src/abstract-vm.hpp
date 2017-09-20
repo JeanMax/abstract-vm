@@ -6,32 +6,31 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:31:36 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 19:20:10 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 22:19:05 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef ABSTRACTVM_HPP
 # define ABSTRACTVM_HPP
 
-// # include <exception>
 # include <iostream>
 # include <stack>
 # include "operand/IOperand.hpp"
 # include "operand/OperandFactory.hpp"
-# include "error/DivideZeroError.hpp"
 
 # define CLR_RED "\033[31;01m"
 # define CLR_YELLOW "\033[33;01m"
 # define CLR_BLUE "\033[34;01m"
 # define CLR_RESET "\033[0m"
 
-#define ERROR(s) std::cerr << CLR_RED "[ERROR] " CLR_RESET << s << std::endl
-#define WARNING(s) std::cerr << CLR_YELLOW "[WARNING] " CLR_RESET << s << std::endl
+# define ERROR(s) std::cerr << CLR_RED "[ERROR] " CLR_RESET << s << std::endl
 
 # ifdef VERBOSE
+#  define WARNING(s) std::cerr << CLR_YELLOW "[WARNING] " CLR_RESET << s << std::endl
 #  define DEBUG(s) std::cout << CLR_BLUE "[DEBUG] " CLR_RESET << s << std::endl
 # else
-#  define DEBUG(s) do {} while(0);
+#  define WARNING(s) do {} while(0)
+#  define DEBUG(s) do {} while(0)
 # endif
 
 /*

@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 19:24:46 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 22:29:30 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,6 +15,7 @@
 
 # include "../abstract-vm.hpp"
 # include "OperandFactory.hpp"
+# include "../error/Error.template.hpp"
 
 # include <cmath> //fmod
 # include <sstream>
@@ -153,11 +154,11 @@ class Operand : public IOperand
             DEBUG(lhs_val << " " << DEBUG_OP(op) << " " << rhs_val);
             if (!static_cast<bool>(rhs_val)) {
                 if (op == OP_DIV) {
-                    throw DivideZeroError();
+                    throw Error<std::domain_error>("Zero Divide Error");
                 }
-                // else if (op == OP_MOD) {
-                //     throw ModuloZeroError();
-                // }
+                else if (op == OP_MOD) {
+                    throw Error<std::domain_error>("Zero Modulo Error");
+                }
             }
 
 			switch(op) {
