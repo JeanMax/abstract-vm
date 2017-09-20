@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:27:03 by mc                #+#    #+#             //
-//   Updated: 2017/04/25 17:00:36 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 15:33:09 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,14 +17,14 @@
 #include "abstract-vm.hpp"
 
 OperandFactory const *g_factory = new OperandFactory;
-std::forward_list<IOperand const *> g_stack = {};
+std::stack<IOperand const *> g_stack = {};
 
 int kthxbye(int status)
 {
 	delete g_factory;
 	while (!g_stack.empty()) {
-		delete g_stack.front();
-		g_stack.pop_front();
+		delete g_stack.top();
+		g_stack.pop();
 	}
 
 	exit(status);
