@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# FATAL=t
+
 CLR_GREEN="\033[32;01m"
 CLR_RED="\033[31;01m"
 CLR_RESET="\033[0m"
@@ -37,18 +39,16 @@ function fail() {
         diff --color=always $TEST_LOG_FILE $CTRL_LOG_FILE
     fi
 
-    exit 1
+    test $FATAL && exit 1
 }
 
 function test_vm() {
 	input="$1"
 	ctrl="$2"
 
-	cat << EOF > $CTRL_LOG_FILE
-$ctrl
-EOF
+	echo -n "$ctrl" > $CTRL_LOG_FILE
 
-    ./abstractvm << EOF >& $TEST_LOG_FILE
+    ./abstractvm << EOF > $TEST_LOG_FILE 2>&1
 $input
 EOF
 
@@ -61,13 +61,53 @@ EOF
 
 
 
-test_vm "zboub" "'zboub': nop."
+test_vm "zboub" "'zboub': nop.
+"
+
+test_vm "$(< ./data/bobo.avm)" "20.2
+"
 
 test_vm "$(< ./data/example.avm)" "42
 42.42
-3341.25"
+3341.25
+"
 
-test_vm "$(< ./data/bobo.avm)" "20.2"
+test_vm "$(< ./data/zero_divide_error.avm)" "zero divide error
+"
+
+test_vm "$(< ./data/overflow_error.avm)" "overflow error
+"
+
+test_vm "$(< ./data/syntax_error.avm)" "syntax error
+"
+
+test_vm "$(< ./data/empty_stack_error.avm)" "empty stack error
+"
+
+test_vm "$(< ./data/assert_error.avm)" "assert error
+"
+
+test_vm "$(< ./data/missing_operand_error.avm)" "missing operand error
+"
+
+test_vm "$(< ./data/plop.avm)" "p
+l
+o
+p
+!
+"
+
+# TODO: Testez un programme de votre invention. Par exemple, faites des operations avec croisement de types avec de tres grands et de tres petits nombres (hors overflow/underflow).
+
+# TODO: Essayez de tester un programme difficile de votre invention (genre vicieux quoi)
+
+# TODO: test stdin vs file
 
 
+
+
+
+
+
+# \n after dots
 echo
