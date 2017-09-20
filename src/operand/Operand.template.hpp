@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:48:50 by mc               ###   ########.fr       //
+//   Updated: 2017/09/21 00:50:05 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -66,7 +66,14 @@ class Operand : public IOperand
                 this->_factory = new OperandFactory;
             }
 
-            ss << STR_TO_TYPE(str, 0); //TODO: catch errors
+            try {
+                ss << STR_TO_TYPE(str, 0);
+            } catch (std::out_of_range &e) {
+                throw Error<std::out_of_range>(
+                    *(str.c_str()) == '-' ? "Underflow Error" : "Overflow Error"
+                );
+            }
+
             this->_str = ss.str();
 
             DEBUG("Operand constructor: "
@@ -164,6 +171,8 @@ class Operand : public IOperand
                 }
             }
 
+            //TODO: handle {over,under}flow
+
             switch(op) {
                 case OP_ADD:
                     lhs_val += rhs_val;
@@ -178,14 +187,13 @@ class Operand : public IOperand
                     lhs_val /= rhs_val;
                     break;
                 case OP_MOD:
-                    lhs_val = static_cast<TYPENAME>(fmod(static_cast<double>(lhs_val), static_cast<double>(rhs_val))); //TODO
+                    lhs_val = static_cast<TYPENAME>(fmod(static_cast<double>(lhs_val), static_cast<double>(rhs_val))); //TODO: test with integers
                     break;
             }
 
             DEBUG("= " << lhs_val);
             ss << lhs_val;
             return ss.str();
-            //TODO: catch error
         }
 
         IOperand const *     do_op(IOperand const &rhs, eOperator op) const
@@ -222,7 +230,6 @@ class Operand : public IOperand
             delete op_tmp;
 
             return op_new;
-            //TODO: catch error
         }
 };
 

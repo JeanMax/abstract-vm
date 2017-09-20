@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/20 21:48:43 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 22:42:23 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 23:56:04 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -54,7 +54,7 @@ class Error: public MOTHER_EXCEPTION {
         */
         Error const &operator=(Error const &copy) throw()
         {
-            (void)copy; //TODO
+            (void)copy;
             return *this;
         }
 

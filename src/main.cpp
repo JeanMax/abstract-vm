@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:27:03 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:47:31 by mc               ###   ########.fr       //
+//   Updated: 2017/09/21 00:34:07 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -34,6 +34,6 @@ int     main(int ac, char **av)
 
     lexer(*(av + 1));
 
-    kthxbye(EXIT_SUCCESS);
-    return EXIT_SUCCESS;
+    ERROR("No exit instruction");
+    return EXIT_FAILURE;
 }

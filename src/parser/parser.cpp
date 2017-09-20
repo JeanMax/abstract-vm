@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:47:31 by mc               ###   ########.fr       //
+//   Updated: 2017/09/21 00:48:42 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -34,7 +34,8 @@ static eOperandType get_type(std::string s_type)
              break;
     }
 
-    return Unknown;     //TODO: error
+    ERROR("Unknown Type");
+    return UnknownType;
 }
 
 static eOperator get_operator(std::string s_operator)
@@ -62,12 +63,19 @@ static eOperator get_operator(std::string s_operator)
     if (s_operator == "exit")
         return Exit;
 
-    return Zboub;       //TODO: error
+    ERROR("Unknown Operator");
+    return UnknownOperator;
 }
 
 IOperand const *parse_operand(std::string s_type, std::string s_value)
 {
-    return g_factory->createOperand(get_type(s_type), s_value);
+    try {
+        return g_factory->createOperand(get_type(s_type), s_value);
+    } catch (std::exception &e) {
+        WARNING(e.what());
+    }
+
+    return NULL;
 }
 
 void parse_operator(std::string s_operator, IOperand const *operand)
@@ -87,5 +95,9 @@ void parse_operator(std::string s_operator, IOperand const *operand)
     };
 
     DEBUG("Operator: " << s_operator);
-    f[get_operator(s_operator)](operand);
+    try {
+        f[get_operator(s_operator)](operand);
+    } catch (std::exception &e) {
+        WARNING(e.what());
+    }
 }

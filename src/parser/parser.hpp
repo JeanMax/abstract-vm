@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:31 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:50:25 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 23:53:11 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -29,7 +29,7 @@ typedef enum Operator
     Mod =    8,
     Print =  9,
     Exit =   10,
-    Zboub =   42
+    UnknownOperator =   42
 } eOperator;
 # define NUMBER_OF_OPERATORS 11
 

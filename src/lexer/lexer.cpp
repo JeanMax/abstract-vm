@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:02:05 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:49:58 by mc               ###   ########.fr       //
+//   Updated: 2017/09/21 00:32:18 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -56,7 +56,7 @@ void lexer(char *filename)
         try {
             getline(filename ? file : std::cin, input, SEP_CHAR);
         } catch (const std::ifstream::failure &e) {
-            ERROR("Could not read '" << (filename ?: "stdin") << "'.");
+            ERROR("Could not read '" << (filename ? filename : "stdin") << "'.");
         }
 
         if (!filename && input == STDIN_END) {

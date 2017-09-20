@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:30:49 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:47:26 by mc               ###   ########.fr       //
+//   Updated: 2017/09/20 23:52:56 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -22,7 +22,7 @@ typedef enum OperandType
     Int32 =  2,
     Float =  3,
     Double = 4,
-    Unknown = 42
+    UnknownType = 42
 } eOperandType;
 # define NUMBER_OF_TYPES 5
 

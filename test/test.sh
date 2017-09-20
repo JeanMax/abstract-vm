@@ -64,9 +64,6 @@ EOF
 
 
 
-test_vm "zboub" "'zboub': nop.
-"
-
 test_vm "$(< $DATA_DIR/bobo.avm)" "20.2
 "
 
