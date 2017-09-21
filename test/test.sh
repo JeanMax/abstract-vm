@@ -103,7 +103,7 @@ p
 
 # TODO: test stdin vs file
 
-# TODO: underflow error
+# TODO: more {over,under}flow error
 
 # TODO: no exit instruction
 

@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 00:50:05 by mc               ###   ########.fr       //
+//   Updated: 2017/09/21 21:50:05 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -58,6 +58,7 @@ class Operand : public IOperand
                 OperandFactory  const *factory = NULL) : _factory(factory)
         {
             std::stringstream ss;
+            TYPENAME          tmp;
 
             this->_precision = OPERAND_TYPE;
             this->_type = OPERAND_TYPE;
@@ -67,11 +68,19 @@ class Operand : public IOperand
             }
 
             try {
-                ss << STR_TO_TYPE(str, 0);
+                tmp = STR_TO_TYPE(str, 0);
+                ss << tmp;
             } catch (std::out_of_range &e) {
                 throw Error<std::out_of_range>(
                     *(str.c_str()) == '-' ? "Underflow Error" : "Overflow Error"
                 );
+            }
+
+            if (tmp > this->getMax()) {
+                throw Error<std::out_of_range>("Overflow Error");
+            }
+            if (tmp < this->getMin()) {
+                throw Error<std::out_of_range>("Underflow Error");
             }
 
             this->_str = ss.str();
@@ -155,39 +164,79 @@ class Operand : public IOperand
         /*
         ** private
         */
-        std::string          getNewValue(std::string const &rhs_str, eOperator op) const
+        TYPENAME            getMin() const
+        {
+            return static_cast<TYPENAME>(
+                this->_factory->getMin(static_cast<eOperandType>(this->_precision))
+            );
+        }
+
+        TYPENAME            getMax() const
+        {
+            return static_cast<TYPENAME>(
+                this->_factory->getMax(static_cast<eOperandType>(this->_precision))
+            );
+        }
+
+
+        std::string         getNewValue(std::string const &rhs_str, eOperator op) const
         {
             TYPENAME lhs_val = STR_TO_TYPE(this->_str, 0);
             TYPENAME rhs_val = STR_TO_TYPE(rhs_str, 0);
             std::stringstream ss;
 
             DEBUG(lhs_val << " " << DEBUG_OP(op) << " " << rhs_val);
-            if (!static_cast<bool>(rhs_val)) {
-                if (op == OP_DIV) {
-                    throw Error<std::domain_error>("Zero Divide Error");
-                }
-                else if (op == OP_MOD) {
-                    throw Error<std::domain_error>("Zero Modulo Error");
-                }
-            }
-
-            //TODO: handle {over,under}flow
+            DEBUG("max: " << this->getMax() << " min: " << this->getMin());
 
             switch(op) {
                 case OP_ADD:
+                    if (lhs_val > 0 && rhs_val > 0
+                        && lhs_val > this->getMax() - rhs_val)
+                        throw Error<std::domain_error>("Add Overflow Error");
+                    if (lhs_val < 0 && rhs_val < 0
+                        && lhs_val < this->getMin() - rhs_val)
+                        throw Error<std::domain_error>("Add Underflow Error");
                     lhs_val += rhs_val;
                     break;
+
                 case OP_SUB:
+                    if (lhs_val > 0 && rhs_val < 0
+                        && lhs_val > this->getMax() + rhs_val)
+                        throw Error<std::domain_error>("Substract Overflow Error");
+                    if (lhs_val < 0 && rhs_val > 0
+                        && lhs_val < this->getMin() + rhs_val)
+                        throw Error<std::domain_error>("Substract Underflow Error");
                     lhs_val -= rhs_val;
                     break;
+
                 case OP_MUL:
+                    if (((lhs_val > 0 && rhs_val > 1) || (lhs_val < 0 && rhs_val < 1))
+                        && lhs_val > this->getMax() / rhs_val)
+                        throw Error<std::domain_error>("Multiply Overflow Error");
+                    if (((lhs_val > 0 && rhs_val < 1) || (lhs_val < 0 && rhs_val > 1))
+                        && lhs_val < this->getMin() / rhs_val)
+                        throw Error<std::domain_error>("Multiply Underflow Error");
                     lhs_val *= rhs_val;
                     break;
+
                 case OP_DIV:
+                    if (((lhs_val > 0 && rhs_val > 0) || (lhs_val < 0 && rhs_val < 0))
+                        && lhs_val > this->getMax() * rhs_val)
+                        throw Error<std::domain_error>("Divide Overflow Error");
+                    if (((lhs_val > 0 && rhs_val < 0) || (lhs_val < 0 && rhs_val > 0))
+                        && lhs_val < this->getMin() * rhs_val)
+                        throw Error<std::domain_error>("Divide Underflow Error");
+                    if (!static_cast<bool>(rhs_val))
+                        throw Error<std::domain_error>("Zero Divide Error");
                     lhs_val /= rhs_val;
                     break;
+
                 case OP_MOD:
-                    lhs_val = static_cast<TYPENAME>(fmod(static_cast<double>(lhs_val), static_cast<double>(rhs_val))); //TODO: test with integers
+                    if (!static_cast<bool>(rhs_val))
+                        throw Error<std::domain_error>("Zero Modulo Error");
+                    lhs_val = static_cast<TYPENAME>(
+                        fmod(static_cast<double>(lhs_val), static_cast<double>(rhs_val))
+                    ); //TODO: test with integers
                     break;
             }
 

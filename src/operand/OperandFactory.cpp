@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 18:17:40 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:47:26 by mc               ###   ########.fr       //
+//   Updated: 2017/09/21 21:38:51 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -55,27 +55,27 @@ static int stoi_base10(std::string const &s, std::size_t *pos = 0)
     return std::stoi(s, pos);
 }
 
-IOperand const * OperandFactory::createInt8( std::string const & value ) const
+IOperand const * OperandFactory::createInt8(std::string const & value) const
 {
     return new Operand<Int8, t_int8, &stoi_base10>(value, this);
 }
 
-IOperand const * OperandFactory::createInt16( std::string const & value ) const
+IOperand const * OperandFactory::createInt16(std::string const & value) const
 {
     return new Operand<Int16, t_int16, &stoi_base10>(value, this);
 }
 
-IOperand const * OperandFactory::createInt32( std::string const & value ) const
+IOperand const * OperandFactory::createInt32(std::string const & value) const
 {
     return new Operand<Int32, t_int32, &stoi_base10>(value, this);
 }
 
-IOperand const * OperandFactory::createFloat( std::string const & value ) const
+IOperand const * OperandFactory::createFloat(std::string const & value) const
 {
     return new Operand<Float, float, &std::stof>(value, this);
 }
 
-IOperand const * OperandFactory::createDouble( std::string const & value ) const
+IOperand const * OperandFactory::createDouble(std::string const & value) const
 {
     return new Operand<Double, double, &std::stod>(value, this);
 }
@@ -84,7 +84,7 @@ IOperand const * OperandFactory::createDouble( std::string const & value ) const
 /*
 ** public
 */
-IOperand const * OperandFactory::createOperand( eOperandType type, std::string const & value ) const
+IOperand const * OperandFactory::createOperand(eOperandType type, std::string const & value) const
 {
     static IOperand const *(OperandFactory::*f[])(std::string const &) const = {
         &OperandFactory::createInt8,
@@ -96,4 +96,14 @@ IOperand const * OperandFactory::createOperand( eOperandType type, std::string c
     };
 
     return (this->*f[type])(value);
+}
+
+double           OperandFactory::getMin(eOperandType type) const
+{
+    return this->_min[type];
+}
+
+double           OperandFactory::getMax(eOperandType type) const
+{
+    return this->_max[type];
 }

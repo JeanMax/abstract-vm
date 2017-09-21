@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 00:30:57 by mc               ###   ########.fr       //
+//   Updated: 2017/09/21 21:43:54 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -99,13 +99,13 @@ void do_sub(IOperand const *operand)
     (void)operand;
 
     if (g_stack.empty())
-        throw Error<std::invalid_argument>("Sub error: empty stack");
+        throw Error<std::invalid_argument>("Substract error: empty stack");
 
     IOperand const *rhs = g_stack.top();
     g_stack.pop();
     if (g_stack.empty()) {
         delete rhs;
-        throw Error<std::invalid_argument>("Sub error: only one value in stack");
+        throw Error<std::invalid_argument>("Substract error: only one value in stack");
     }
 
     IOperand const *lhs = g_stack.top();
@@ -121,13 +121,13 @@ void do_mul(IOperand const *operand)
     (void)operand;
 
     if (g_stack.empty())
-        throw Error<std::invalid_argument>("Mul error: empty stack");
+        throw Error<std::invalid_argument>("Multiply error: empty stack");
 
     IOperand const *rhs = g_stack.top();
     g_stack.pop();
     if (g_stack.empty()) {
         delete rhs;
-        throw Error<std::invalid_argument>("Mul error: only one value in stack");
+        throw Error<std::invalid_argument>("Multiply error: only one value in stack");
     }
 
     IOperand const *lhs = g_stack.top();
@@ -143,13 +143,13 @@ void do_div(IOperand const *operand)
     (void)operand;
 
     if (g_stack.empty())
-        throw Error<std::invalid_argument>("Div error: empty stack");
+        throw Error<std::invalid_argument>("Divide error: empty stack");
 
     IOperand const *rhs = g_stack.top();
     g_stack.pop();
     if (g_stack.empty()) {
         delete rhs;
-        throw Error<std::invalid_argument>("Div error: only one value in stack");
+        throw Error<std::invalid_argument>("Divide error: only one value in stack");
     }
 
     IOperand const *lhs = g_stack.top();
