@@ -1,0 +1,4 @@
+push int32(-2000000000)
+push int32(-2000000000)
+sub
+exit

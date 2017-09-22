@@ -1,0 +1,4 @@
+push int16(-30000)
+push int16(30000)
+sub
+exit

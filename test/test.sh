@@ -9,9 +9,22 @@ CLR_GREEN="\033[32;01m"
 CLR_RED="\033[31;01m"
 CLR_RESET="\033[0m"
 
-
 TEST_LOG_FILE=/tmp/test_abstract-vm.log
 CTRL_LOG_FILE=/tmp/ctrl_abstract-vm.log
+
+TYPES="int8
+int16
+int32
+float
+double"
+
+OP="add
+sub
+div
+mul"
+
+FLOW="overflow
+underflow"
 
 function success_msg() {
 	echo -ne "$CLR_GREEN$1$CLR_RESET"
@@ -72,22 +85,35 @@ test_vm "$(< $DATA_DIR/example.avm)" "42
 3341.25
 "
 
-test_vm "$(< $DATA_DIR/zero_divide_error.avm)" "zero divide error
+test_vm "$(< $DATA_DIR/zero_divide_error.avm)" "Zero Divide Error
 "
 
-test_vm "$(< $DATA_DIR/overflow_error.avm)" "overflow error
+for f in $FLOW; do
+    for t in $TYPES; do
+        test_vm "$(< $DATA_DIR/"$f"_error_"$t".avm)" "${f^} Error
 "
 
-test_vm "$(< $DATA_DIR/syntax_error.avm)" "syntax error
+        for o in $OP; do
+            if test "$o" == "div" && echo $t | grep -q int; then
+                continue
+            fi
+            test_vm "$(< $DATA_DIR/"$f"_error_"$t"_"$o".avm)" "${f^} Error
+"
+        done
+    done
+done
+
+test_vm "$(< $DATA_DIR/syntax_error.avm)" "Syntax error: 'push int16(32 ;)'.
+Syntax error: 'pu int(32))'.
 "
 
-test_vm "$(< $DATA_DIR/empty_stack_error.avm)" "empty stack error
+test_vm "$(< $DATA_DIR/empty_stack_error.avm)" "Pop error: empty stack
 "
 
-test_vm "$(< $DATA_DIR/assert_error.avm)" "assert error
+test_vm "$(< $DATA_DIR/assert_error.avm)" "Assert error: values differ
 "
 
-test_vm "$(< $DATA_DIR/missing_operand_error.avm)" "missing operand error
+test_vm "$(< $DATA_DIR/missing_operand_error.avm)" "Add error: only one value in stack
 "
 
 test_vm "$(< $DATA_DIR/plop.avm)" "p
@@ -102,8 +128,6 @@ p
 # TODO: Essayez de tester un programme difficile de votre invention (genre vicieux quoi)
 
 # TODO: test stdin vs file
-
-# TODO: more {over,under}flow error
 
 # TODO: no exit instruction
 

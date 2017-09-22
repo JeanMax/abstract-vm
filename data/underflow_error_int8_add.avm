@@ -1,0 +1,4 @@
+push int8(-150)
+push int8(-150)
+add
+exit
