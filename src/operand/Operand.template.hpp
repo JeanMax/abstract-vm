@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 21:50:05 by mc               ###   ########.fr       //
+//   Updated: 2017/09/23 19:58:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -71,15 +71,18 @@ class Operand : public IOperand
                 tmp = STR_TO_TYPE(str, 0);
                 ss << tmp;
             } catch (std::out_of_range &e) {
+                // delete this; //TODO
                 throw Error<std::out_of_range>(
                     *(str.c_str()) == '-' ? "Underflow Error" : "Overflow Error"
                 );
             }
 
             if (tmp > this->getMax()) {
+                // delete this; //TODO
                 throw Error<std::out_of_range>("Overflow Error");
             }
             if (tmp < this->getMin()) {
+                // delete this; //TODO
                 throw Error<std::out_of_range>("Underflow Error");
             }
 
@@ -191,49 +194,69 @@ class Operand : public IOperand
             switch(op) {
                 case OP_ADD:
                     if (lhs_val > 0 && rhs_val > 0
-                        && lhs_val > this->getMax() - rhs_val)
+                        && lhs_val > this->getMax() - rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Add Overflow Error");
+                    }
                     if (lhs_val < 0 && rhs_val < 0
-                        && lhs_val < this->getMin() - rhs_val)
+                        && lhs_val < this->getMin() - rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Add Underflow Error");
+                    }
                     lhs_val += rhs_val;
                     break;
 
                 case OP_SUB:
                     if (lhs_val > 0 && rhs_val < 0
-                        && lhs_val > this->getMax() + rhs_val)
+                        && lhs_val > this->getMax() + rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Substract Overflow Error");
+                    }
                     if (lhs_val < 0 && rhs_val > 0
-                        && lhs_val < this->getMin() + rhs_val)
+                        && lhs_val < this->getMin() + rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Substract Underflow Error");
+                    }
                     lhs_val -= rhs_val;
                     break;
 
                 case OP_MUL:
                     if (((lhs_val > 0 && rhs_val > 1) || (lhs_val < 0 && rhs_val < 1))
-                        && lhs_val > this->getMax() / rhs_val)
+                        && lhs_val > this->getMax() / rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Multiply Overflow Error");
+                    }
                     if (((lhs_val > 0 && rhs_val < 1) || (lhs_val < 0 && rhs_val > 1))
-                        && lhs_val < this->getMin() / rhs_val)
+                        && lhs_val < this->getMin() / rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Multiply Underflow Error");
+                    }
                     lhs_val *= rhs_val;
                     break;
 
                 case OP_DIV:
                     if (((lhs_val > 0 && rhs_val > 0) || (lhs_val < 0 && rhs_val < 0))
-                        && lhs_val > this->getMax() * rhs_val)
+                        && lhs_val > this->getMax() * rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Divide Overflow Error");
+                    }
                     if (((lhs_val > 0 && rhs_val < 0) || (lhs_val < 0 && rhs_val > 0))
-                        && lhs_val < this->getMin() * rhs_val)
+                        && lhs_val < this->getMin() * rhs_val) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Divide Underflow Error");
-                    if (!static_cast<bool>(rhs_val))
+                    }
+                    if (!static_cast<bool>(rhs_val)) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Zero Divide Error");
+                    }
                     lhs_val /= rhs_val;
                     break;
 
                 case OP_MOD:
-                    if (!static_cast<bool>(rhs_val))
+                    if (!static_cast<bool>(rhs_val)) {
+                        // delete this; //TODO
                         throw Error<std::domain_error>("Zero Modulo Error");
+                    }
                     lhs_val = static_cast<TYPENAME>(
                         fmod(static_cast<double>(lhs_val), static_cast<double>(rhs_val))
                     ); //TODO: test with integers

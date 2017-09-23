@@ -19,9 +19,9 @@ float
 double"
 
 OP="add
-sub
-div
-mul"
+substract
+divide
+multiply"
 
 FLOW="overflow
 underflow"
@@ -94,10 +94,10 @@ for f in $FLOW; do
 "
 
         for o in $OP; do
-            if test "$o" == "div" && echo $t | grep -q int; then
+            if test "$o" == "divide" && echo $t | grep -q int; then
                 continue
             fi
-            test_vm "$(< $DATA_DIR/"$f"_error_"$t"_"$o".avm)" "${f^} Error
+            test_vm "$(< $DATA_DIR/"$f"_error_"$t"_"$o".avm)" "${o^} ${f^} Error
 "
         done
     done

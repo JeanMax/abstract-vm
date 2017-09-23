@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 00:48:42 by mc               ###   ########.fr       //
+//   Updated: 2017/09/23 19:51:03 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -70,7 +70,7 @@ static eOperator get_operator(std::string s_operator)
 IOperand const *parse_operand(std::string s_type, std::string s_value)
 {
     try {
-        return g_factory->createOperand(get_type(s_type), s_value);
+         return g_factory->createOperand(get_type(s_type), s_value);
     } catch (std::exception &e) {
         WARNING(e.what());
     }

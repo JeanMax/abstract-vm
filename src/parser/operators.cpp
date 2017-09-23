@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 21:43:54 by mc               ###   ########.fr       //
+//   Updated: 2017/09/23 19:42:54 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,6 +17,11 @@ extern std::stack<IOperand const *> g_stack;
 
 void do_assert(IOperand const *operand)
 {
+    if (!operand) {
+        // WARNING("Assert: no operand");
+        return;
+    }
+
     if (g_stack.empty()) {
         delete operand;
         throw Error<std::invalid_argument>("Assert error: empty stack");
@@ -39,6 +44,11 @@ void do_assert(IOperand const *operand)
 
 void do_push(IOperand const *operand)
 {
+    if (!operand) {
+        // WARNING("Push: no operand");
+        return;
+    }
+
     g_stack.push(operand);
 }
 

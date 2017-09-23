@@ -1,4 +1,4 @@
 push float(99999999999999999999999999999999999999.42)
-push float(0.42)
+push float(0.00042)
 div
 exit

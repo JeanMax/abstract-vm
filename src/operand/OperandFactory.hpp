@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 18:50:52 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 21:38:39 by mc               ###   ########.fr       //
+//   Updated: 2017/09/23 19:23:08 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -36,8 +36,9 @@ class OperandFactory {
         IOperand const * createFloat(std::string const &value) const;
         IOperand const * createDouble(std::string const &value) const;
 
-        const double _min[NUMBER_OF_TYPES] = {INT8_MIN, INT16_MIN, INT32_MIN, FLT_MIN, DBL_MIN};
+        const double _min[NUMBER_OF_TYPES] = {INT8_MIN, INT16_MIN, INT32_MIN, -FLT_MAX, -DBL_MAX};
         const double _max[NUMBER_OF_TYPES] = {INT8_MAX, INT16_MAX, INT32_MAX, FLT_MAX, DBL_MAX};
+        //TODO: check {DLB,FLT}_MIN
 };
 
 #endif

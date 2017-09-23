@@ -1,4 +1,0 @@
-push int8(-150)
-push int8(150)
-mul
-exit

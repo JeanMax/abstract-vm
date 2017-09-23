@@ -1,4 +1,4 @@
+push int8(-120)
 push int8(120)
-push int8(120)
-add
+mul
 exit
