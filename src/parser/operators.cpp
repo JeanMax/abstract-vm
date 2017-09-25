@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/23 19:42:54 by mc               ###   ########.fr       //
+//   Updated: 2017/09/24 21:35:13 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -70,7 +70,7 @@ void do_dump(IOperand const *operand)
     std::stack<IOperand const *> rev_stack = {};
 
     while (!g_stack.empty()) {
-        MSG(g_stack.top()->toString());
+        MSG(g_stack.top()->toString() << std::endl);
         rev_stack.push(g_stack.top());
         g_stack.pop();
     }

@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:31:36 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:43:34 by mc               ###   ########.fr       //
+//   Updated: 2017/09/25 13:32:24 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -36,7 +36,7 @@
 #  define WARNING(s) std::cerr << CLR_YELLOW  "[WARNING] " CLR_RESET << s << std::endl
 #  define DEBUG(s)   std::cout << CLR_MAGENTA "[DEBUG] "   CLR_RESET << s << std::endl
 # else
-#  define MSG(s)     std::cout << s << std::endl
+#  define MSG(s)     std::cout << s
 #  define ERROR(s)   std::cerr << s << std::endl; kthxbye(EXIT_FAILURE)
 #  define WARNING(s) std::cerr << s << std::endl
 #  define DEBUG(s)   do {} while(0)

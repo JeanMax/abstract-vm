@@ -116,12 +116,7 @@ test_vm "$(< $DATA_DIR/assert_error.avm)" "Assert error: values differ
 test_vm "$(< $DATA_DIR/missing_operand_error.avm)" "Add error: only one value in stack
 "
 
-test_vm "$(< $DATA_DIR/plop.avm)" "p
-l
-o
-p
-!
-"
+test_vm "$(< $DATA_DIR/plop.avm)" "plop!"
 
 # TODO: Testez un programme de votre invention. Par exemple, faites des operations avec croisement de types avec de tres grands et de tres petits nombres (hors overflow/underflow).
 
