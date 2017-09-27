@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 15:52:09 by mc               ###   ########.fr       //
+//   Updated: 2017/09/27 14:20:47 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,44 +16,60 @@ extern std::stack<IOperand const *> g_stack;
 
 void do_assert(IOperand const *operand)
 {
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (!operand) {
+        // WARNING("Assert: no operand");
+        return;
+    }
 
-	IOperand const *top = g_stack.top();
+    if (g_stack.empty()) {
+        delete operand;
+        throw Error<std::invalid_argument>("Assert error: empty stack");
+    }
 
-	if (top->getType() != operand->getType())
-		kthxbye(EXIT_FAILURE); //TODO
+    IOperand const *top = g_stack.top();
 
-	if (top->toString() != operand->toString())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (top->getType() != operand->getType()) {
+        delete operand;
+        throw Error<std::runtime_error>("Assert error: types differ");
+    }
 
-	delete operand;
+    if (top->toString() != operand->toString()) {
+        delete operand;
+        throw Error<std::runtime_error>("Assert error: values differ");
+    }
+
+    delete operand;
 }
 
 void do_push(IOperand const *operand)
 {
-	g_stack.push(operand);
+    if (!operand) {
+        // WARNING("Push: no operand");
+        return;
+    }
+
+    g_stack.push(operand);
 }
 
 void do_pop(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (g_stack.empty())
+        throw Error<std::invalid_argument>("Pop error: empty stack");
 
-	delete g_stack.top();
-	g_stack.pop();
+    delete g_stack.top();
+    g_stack.pop();
 }
 
 void do_dump(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
     std::stack<IOperand const *> rev_stack = {};
 
     while (!g_stack.empty()) {
-		std::cout << g_stack.top()->toString() << std::endl;
+        MSG(g_stack.top()->toString() << std::endl);
         rev_stack.push(g_stack.top());
         g_stack.pop();
     }
@@ -67,132 +83,142 @@ void do_dump(IOperand const *operand)
 
 void do_add(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (g_stack.empty())
+        throw Error<std::invalid_argument>("Add error: empty stack");
 
-	IOperand const *lhs = g_stack.top();
-	g_stack.pop();
-	if (g_stack.empty()) {
-		delete lhs;
-		kthxbye(EXIT_FAILURE); //TODO
-	}
+    IOperand const *rhs = g_stack.top();
+    g_stack.pop();
+    if (g_stack.empty()) {
+        delete rhs;
+        throw Error<std::invalid_argument>("Add error: only one value in stack");
+    }
 
-	IOperand const *rhs = g_stack.top();
-	g_stack.pop();
+    IOperand const *lhs = g_stack.top();
+    g_stack.pop();
 
-	g_stack.push(*lhs + *rhs);
-	delete lhs;
-	delete rhs;
+    g_stack.push(*lhs + *rhs);
+    delete lhs;
+    delete rhs;
 }
 
 void do_sub(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (g_stack.empty())
+        throw Error<std::invalid_argument>("Substract error: empty stack");
 
-	IOperand const *lhs = g_stack.top();
-	g_stack.pop();
-	if (g_stack.empty()) {
-		delete lhs;
-		kthxbye(EXIT_FAILURE); //TODO
-	}
+    IOperand const *rhs = g_stack.top();
+    g_stack.pop();
+    if (g_stack.empty()) {
+        delete rhs;
+        throw Error<std::invalid_argument>("Substract error: only one value in stack");
+    }
 
-	IOperand const *rhs = g_stack.top();
-	g_stack.pop();
+    IOperand const *lhs = g_stack.top();
+    g_stack.pop();
 
-	g_stack.push(*lhs - *rhs);
-	delete lhs;
-	delete rhs;
+    g_stack.push(*lhs - *rhs);
+    delete lhs;
+    delete rhs;
 }
 
 void do_mul(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (g_stack.empty())
+        throw Error<std::invalid_argument>("Multiply error: empty stack");
 
-	IOperand const *lhs = g_stack.top();
-	g_stack.pop();
-	if (g_stack.empty()) {
-		delete lhs;
-		kthxbye(EXIT_FAILURE); //TODO
-	}
+    IOperand const *rhs = g_stack.top();
+    g_stack.pop();
+    if (g_stack.empty()) {
+        delete rhs;
+        throw Error<std::invalid_argument>("Multiply error: only one value in stack");
+    }
 
-	IOperand const *rhs = g_stack.top();
-	g_stack.pop();
+    IOperand const *lhs = g_stack.top();
+    g_stack.pop();
 
-	g_stack.push(*lhs * *rhs);
-	delete lhs;
-	delete rhs;
+    g_stack.push(*lhs * *rhs);
+    delete lhs;
+    delete rhs;
 }
 
 void do_div(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (g_stack.empty())
+        throw Error<std::invalid_argument>("Divide error: empty stack");
 
-	IOperand const *lhs = g_stack.top();
-	g_stack.pop();
-	if (g_stack.empty()) {
-		delete lhs;
-		kthxbye(EXIT_FAILURE); //TODO
-	}
+    IOperand const *rhs = g_stack.top();
+    g_stack.pop();
+    if (g_stack.empty()) {
+        delete rhs;
+        throw Error<std::invalid_argument>("Divide error: only one value in stack");
+    }
 
-	IOperand const *rhs = g_stack.top();
-	g_stack.pop();
+    IOperand const *lhs = g_stack.top();
+    g_stack.pop();
 
-	g_stack.push(*lhs / *rhs);
-	delete lhs;
-	delete rhs;
+    try {
+        g_stack.push(*lhs / *rhs);
+    } catch (Error<std::domain_error> const &e) {
+        WARNING(e.what());
+    }
+
+    delete lhs;
+    delete rhs;
 }
 
 void do_mod(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    if (g_stack.empty())
+        throw Error<std::invalid_argument>("Mod error: empty stack");
 
-	IOperand const *lhs = g_stack.top();
-	g_stack.pop();
-	if (g_stack.empty()) {
-		delete lhs;
-		kthxbye(EXIT_FAILURE); //TODO
-	}
+    IOperand const *rhs = g_stack.top();
+    g_stack.pop();
+    if (g_stack.empty()) {
+        delete rhs;
+        throw Error<std::invalid_argument>("Mod error: only one value in stack");
+    }
 
-	IOperand const *rhs = g_stack.top();
-	g_stack.pop();
+    IOperand const *lhs = g_stack.top();
+    g_stack.pop();
 
-	g_stack.push(*lhs % *rhs);
-	delete lhs;
-	delete rhs;
+    try {
+        g_stack.push(*lhs % *rhs);
+    } catch (Error<std::domain_error> const &e) {
+        WARNING(e.what());
+    }
+
+    delete lhs;
+    delete rhs;
 }
 
 void do_print(IOperand const *operand)
 {
-	if (g_stack.empty())
-		kthxbye(EXIT_FAILURE); //TODO
+    (void)operand;
 
-	IOperand const *top = g_stack.top();
+    if (g_stack.empty())
+        throw Error<std::invalid_argument>("Print error: empty stack");
 
-	if (top->getType() != Int8)
-		kthxbye(EXIT_FAILURE); //TODO
+    IOperand const *top = g_stack.top();
 
-	std::cout << static_cast<char>(std::stoi(top->toString())) << std::endl;
+    if (top->getType() != Int8)
+        throw Error<std::invalid_argument>("Print error: not an int8");
 
-	(void)operand;
+    MSG(static_cast<char>(std::stoi(top->toString())));
 }
 
 void do_exit(IOperand const *operand)
 {
-	(void)operand;
+    (void)operand;
 
-	kthxbye(0); //TODO
+    kthxbye(EXIT_SUCCESS);
 }

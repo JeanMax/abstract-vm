@@ -6,39 +6,39 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:27:03 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 15:33:09 by mc               ###   ########.fr       //
+//   Updated: 2017/09/27 14:06:47 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
-
-/*
-** todo
-*/
 
 #include "abstract-vm.hpp"
 
 OperandFactory const *g_factory = new OperandFactory;
 std::stack<IOperand const *> g_stack = {};
 
-int kthxbye(int status)
+void   kthxbye(int status)
 {
-	delete g_factory;
-	while (!g_stack.empty()) {
-		delete g_stack.top();
-		g_stack.pop();
-	}
+    delete g_factory;
+    while (!g_stack.empty()) {
+        delete g_stack.top();
+        g_stack.pop();
+    }
 
-	exit(status);
-	return status;
+    exit(status);
 }
 
-int		main(int ac, char **av)
+int     main(int ac, char **av)
 {
-	if (ac > 2) {
-		std::cerr << "Usage: " << *av << "[FILE]" << std::endl;
-		return kthxbye(EXIT_FAILURE);
-	}
+    if (ac > 2) {
+        ERROR("Usage: " << *av << " [FILE]");
+        kthxbye(EXIT_FAILURE);
+    }
 
-	lexer(*(av + 1));
+    try {
+        lexer(*(av + 1));
+    } catch (std::exception const &e) {
+        ERROR(e.what());
+        kthxbye(EXIT_FAILURE);
+    }
 
-	return kthxbye(EXIT_SUCCESS);
+    return EXIT_FAILURE;
 }

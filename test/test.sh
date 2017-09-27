@@ -2,13 +2,29 @@
 
 # FATAL=t
 
+NAME=avm
+DATA_DIR=data
+
 CLR_GREEN="\033[32;01m"
 CLR_RED="\033[31;01m"
 CLR_RESET="\033[0m"
 
-
 TEST_LOG_FILE=/tmp/test_abstract-vm.log
 CTRL_LOG_FILE=/tmp/ctrl_abstract-vm.log
+
+TYPES="int8
+int16
+int32
+float
+double"
+
+OP="add
+substract
+divide
+multiply"
+
+FLOW="overflow
+underflow"
 
 function success_msg() {
 	echo -ne "$CLR_GREEN$1$CLR_RESET"
@@ -48,7 +64,7 @@ function test_vm() {
 
 	echo -n "$ctrl" > $CTRL_LOG_FILE
 
-    ./abstractvm << EOF > $TEST_LOG_FILE 2>&1
+    ./$NAME << EOF > $TEST_LOG_FILE 2>&1
 $input
 EOF
 
@@ -61,41 +77,46 @@ EOF
 
 
 
-test_vm "zboub" "'zboub': nop.
+test_vm "$(< $DATA_DIR/bobo.avm)" "20.2
 "
 
-test_vm "$(< ./data/bobo.avm)" "20.2
-"
-
-test_vm "$(< ./data/example.avm)" "42
+test_vm "$(< $DATA_DIR/example.avm)" "42
 42.42
 3341.25
 "
 
-test_vm "$(< ./data/zero_divide_error.avm)" "zero divide error
+test_vm "$(< $DATA_DIR/zero_divide_error.avm)" "Zero Divide Error
 "
 
-test_vm "$(< ./data/overflow_error.avm)" "overflow error
+for f in $FLOW; do
+    for t in $TYPES; do
+        test_vm "$(< $DATA_DIR/"$f"_error_"$t".avm)" "${f^} Error
 "
 
-test_vm "$(< ./data/syntax_error.avm)" "syntax error
+        for o in $OP; do
+            if test "$o" == "divide" && echo $t | grep -q int; then
+                continue
+            fi
+            test_vm "$(< $DATA_DIR/"$f"_error_"$t"_"$o".avm)" "${o^} ${f^} Error
+"
+        done
+    done
+done
+
+test_vm "$(< $DATA_DIR/syntax_error.avm)" "Syntax error: 'push int16(32 ;)'.
+Syntax error: 'pu int(32))'.
 "
 
-test_vm "$(< ./data/empty_stack_error.avm)" "empty stack error
+test_vm "$(< $DATA_DIR/empty_stack_error.avm)" "Pop error: empty stack
 "
 
-test_vm "$(< ./data/assert_error.avm)" "assert error
+test_vm "$(< $DATA_DIR/assert_error.avm)" "Assert error: values differ
 "
 
-test_vm "$(< ./data/missing_operand_error.avm)" "missing operand error
+test_vm "$(< $DATA_DIR/missing_operand_error.avm)" "Add error: only one value in stack
 "
 
-test_vm "$(< ./data/plop.avm)" "p
-l
-o
-p
-!
-"
+test_vm "$(< $DATA_DIR/plop.avm)" "plop!"
 
 # TODO: Testez un programme de votre invention. Par exemple, faites des operations avec croisement de types avec de tres grands et de tres petits nombres (hors overflow/underflow).
 
@@ -103,7 +124,9 @@ p
 
 # TODO: test stdin vs file
 
+# TODO: no exit instruction
 
+# TODO: modulo zero error
 
 
 
