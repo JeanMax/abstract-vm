@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:02:05 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 00:32:18 by mc               ###   ########.fr       //
+//   Updated: 2017/09/27 14:14:41 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -48,7 +48,9 @@ void lexer(char *filename)
         try {
             file.open(filename);
         } catch (const std::ifstream::failure &e) {
-            ERROR("Could not open '" << filename << "'.");
+            throw Error<std::runtime_error>(
+                "Could not open '" + std::string(filename ? filename : "stdin") + "'."
+            );
         }
     }
 
@@ -56,7 +58,9 @@ void lexer(char *filename)
         try {
             getline(filename ? file : std::cin, input, SEP_CHAR);
         } catch (const std::ifstream::failure &e) {
-            ERROR("Could not read '" << (filename ? filename : "stdin") << "'.");
+            throw Error<std::runtime_error>(
+                "Could not read '" + std::string(filename ? filename : "stdin") + "'."
+            );
         }
 
         if (!filename && input == STDIN_END) {
@@ -79,9 +83,13 @@ void lexer(char *filename)
 
     if (filename) {
         try {
-            file.close();
+            file.close(); //TODO: close that in kthxbye
         } catch (const std::ifstream::failure &e) {
-            ERROR("Could not close '" << filename << "'.");
+            throw Error<std::runtime_error>(
+                "Could not close '" + std::string(filename ? filename : "stdin") + "'."
+            );
         }
     }
+
+    throw Error<std::logic_error>("No exit instruction");
 }

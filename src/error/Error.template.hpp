@@ -6,15 +6,14 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/20 21:48:43 by mc                #+#    #+#             //
-//   Updated: 2017/09/20 23:56:04 by mc               ###   ########.fr       //
+//   Updated: 2017/09/27 13:46:38 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef ERROR_TEMPLATE_HPP
 # define ERROR_TEMPLATE_HPP
 
-# include "../abstract-vm.hpp"
-
+# include "../log.hpp"
 # include <stdexcept>
 
 template <typename MOTHER_EXCEPTION>

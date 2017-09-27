@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/23 00:18:53 by mc                #+#    #+#             //
-//   Updated: 2017/09/23 19:58:03 by mc               ###   ########.fr       //
+//   Updated: 2017/09/27 13:29:10 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -196,12 +196,12 @@ class Operand : public IOperand
                     if (lhs_val > 0 && rhs_val > 0
                         && lhs_val > this->getMax() - rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Add Overflow Error");
+                        throw Error<std::out_of_range>("Add Overflow Error");
                     }
                     if (lhs_val < 0 && rhs_val < 0
                         && lhs_val < this->getMin() - rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Add Underflow Error");
+                        throw Error<std::out_of_range>("Add Underflow Error");
                     }
                     lhs_val += rhs_val;
                     break;
@@ -210,12 +210,12 @@ class Operand : public IOperand
                     if (lhs_val > 0 && rhs_val < 0
                         && lhs_val > this->getMax() + rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Substract Overflow Error");
+                        throw Error<std::out_of_range>("Substract Overflow Error");
                     }
                     if (lhs_val < 0 && rhs_val > 0
                         && lhs_val < this->getMin() + rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Substract Underflow Error");
+                        throw Error<std::out_of_range>("Substract Underflow Error");
                     }
                     lhs_val -= rhs_val;
                     break;
@@ -224,12 +224,12 @@ class Operand : public IOperand
                     if (((lhs_val > 0 && rhs_val > 1) || (lhs_val < 0 && rhs_val < 1))
                         && lhs_val > this->getMax() / rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Multiply Overflow Error");
+                        throw Error<std::out_of_range>("Multiply Overflow Error");
                     }
                     if (((lhs_val > 0 && rhs_val < 1) || (lhs_val < 0 && rhs_val > 1))
                         && lhs_val < this->getMin() / rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Multiply Underflow Error");
+                        throw Error<std::out_of_range>("Multiply Underflow Error");
                     }
                     lhs_val *= rhs_val;
                     break;
@@ -238,12 +238,12 @@ class Operand : public IOperand
                     if (((lhs_val > 0 && rhs_val > 0) || (lhs_val < 0 && rhs_val < 0))
                         && lhs_val > this->getMax() * rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Divide Overflow Error");
+                        throw Error<std::out_of_range>("Divide Overflow Error");
                     }
                     if (((lhs_val > 0 && rhs_val < 0) || (lhs_val < 0 && rhs_val > 0))
                         && lhs_val < this->getMin() * rhs_val) {
                         // delete this; //TODO
-                        throw Error<std::domain_error>("Divide Underflow Error");
+                        throw Error<std::out_of_range>("Divide Underflow Error");
                     }
                     if (!static_cast<bool>(rhs_val)) {
                         // delete this; //TODO

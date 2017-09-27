@@ -6,12 +6,11 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/04/25 15:35:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/24 21:35:13 by mc               ###   ########.fr       //
+//   Updated: 2017/09/27 14:20:47 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "parser.hpp"
-#include "../error/Error.template.hpp"
 
 extern std::stack<IOperand const *> g_stack;
 

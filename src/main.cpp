@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:27:03 by mc                #+#    #+#             //
-//   Updated: 2017/09/21 00:34:07 by mc               ###   ########.fr       //
+//   Updated: 2017/09/27 14:06:47 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -30,10 +30,15 @@ int     main(int ac, char **av)
 {
     if (ac > 2) {
         ERROR("Usage: " << *av << " [FILE]");
+        kthxbye(EXIT_FAILURE);
     }
 
-    lexer(*(av + 1));
+    try {
+        lexer(*(av + 1));
+    } catch (std::exception const &e) {
+        ERROR(e.what());
+        kthxbye(EXIT_FAILURE);
+    }
 
-    ERROR("No exit instruction");
     return EXIT_FAILURE;
 }
