@@ -18,13 +18,13 @@ int32
 float
 double"
 
-OP="add
-substract
-divide
-multiply"
+OP="Add
+Substract
+Divide
+Multiply"
 
-FLOW="overflow
-underflow"
+FLOW="Overflow
+Underflow"
 
 function success_msg() {
 	echo -ne "$CLR_GREEN$1$CLR_RESET"
@@ -52,7 +52,7 @@ function fail() {
         cat $CTRL_LOG_FILE
 
         error_msg "\nDiff:"
-        diff --color=always $TEST_LOG_FILE $CTRL_LOG_FILE
+        diff $TEST_LOG_FILE $CTRL_LOG_FILE
     fi
 
     test $FATAL && exit 1
@@ -90,14 +90,14 @@ test_vm "$(< $DATA_DIR/zero_divide_error.avm)" "Zero Divide Error
 
 for f in $FLOW; do
     for t in $TYPES; do
-        test_vm "$(< $DATA_DIR/"$f"_error_"$t".avm)" "${f^} Error
+        test_vm "$(< $DATA_DIR/"$f"_error_"$t".avm)" "$f Error
 "
 
         for o in $OP; do
-            if test "$o" == "divide" && echo $t | grep -q int; then
+            if test "$o" == "Divide" && echo $t | grep -q int; then
                 continue
             fi
-            test_vm "$(< $DATA_DIR/"$f"_error_"$t"_"$o".avm)" "${o^} ${f^} Error
+            test_vm "$(< $DATA_DIR/"$f"_error_"$t"_"$o".avm)" "$o $f Error
 "
         done
     done

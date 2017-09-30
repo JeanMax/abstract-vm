@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2017/09/30 14:11:58 by mc               ###   ########.fr        #
+#    Updated: 2017/09/30 17:04:14 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -64,7 +64,7 @@ RM =		rm -f
 RMDIR =		rmdir -p
 MKDIR =		mkdir -p
 MAKE =		make
-MAKEFLAGS =	-j 4
+MAKEFLAGS =	-j
 CXX =		$(shell clang --version &>/dev/null && echo clang++ || echo g++) -std=c++11
 CPPFLAGS =	-Wall -Wextra -Werror -O2
 LD =		$(CXX)
@@ -148,8 +148,8 @@ re: FLAGS = $(PREV_FLAGS)
 re: fclean all
 
 # run tests on project
-# test: all
-#	$(MAKE) -C $(TEST_DIR) #TODO: handle flags
+test: all
+	@./test/test.sh
 
 # sdl: $(SDL)
 
