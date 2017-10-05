@@ -6,13 +6,17 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:13:02 by mc                #+#    #+#             //
-//   Updated: 2017/09/27 14:07:23 by mc               ###   ########.fr       //
+//   Updated: 2017/10/05 15:18:44 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "parser.hpp"
+#include <list>
 
 extern OperandFactory const *g_factory;
+
+std::list<IOperand const *> operand_tokens = {};
+std::list<eOperator> operator_tokens = {};
 
 static eOperandType get_type(std::string s_type)
 {
@@ -80,7 +84,15 @@ IOperand const *parse_operand(std::string s_type, std::string s_value)
 
 void parse_operator(std::string s_operator, IOperand const *operand)
 {
-    static void (*f[])(IOperand const *) = {
+    DEBUG("Operator: " << s_operator);
+
+    operator_tokens.push_back(get_operator(s_operator));
+    operand_tokens.push_back(operand);
+}
+
+void exec_tokens()
+{
+    void (*f[])(IOperand const *) = {
         do_assert,
         do_push,
         do_pop,
@@ -94,10 +106,14 @@ void parse_operator(std::string s_operator, IOperand const *operand)
         do_exit,
     };
 
-    DEBUG("Operator: " << s_operator);
-    try {
-        f[get_operator(s_operator)](operand);
-    } catch (std::exception const &e) {
-        WARNING(e.what());
+    while (!operator_tokens.empty()) {
+        try {
+            f[operator_tokens.front()](operand_tokens.front());
+        } catch (std::exception const &e) {
+            WARNING(e.what());
+        }
+
+        operand_tokens.pop_front();
+        operator_tokens.pop_front();
     }
 }

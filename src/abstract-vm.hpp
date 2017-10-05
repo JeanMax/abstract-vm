@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/20 22:31:36 by mc                #+#    #+#             //
-//   Updated: 2017/09/27 14:21:08 by mc               ###   ########.fr       //
+//   Updated: 2017/10/05 17:26:54 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,6 +15,8 @@
 
 # include <iostream>
 # include <stack>
+# include <cstring>
+# include <sstream>
 # include "log.hpp"
 # include "operand/IOperand.hpp"
 # include "operand/OperandFactory.hpp"
@@ -23,13 +25,15 @@
 /*
 ** lexer.cpp
 */
-void            lexer(char *filename);
+void            lexer(const char *filename, bool interactive);
 
 /*
 ** parser.cpp
 */
 IOperand const *parse_operand(std::string type, std::string value);
 void            parse_operator(std::string s_operator, IOperand const *operand);
+void            exec_tokens(void);
+
 
 /*
 ** main.cpp

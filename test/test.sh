@@ -103,8 +103,8 @@ for f in $FLOW; do
     done
 done
 
-test_vm "$(< $DATA_DIR/syntax_error.avm)" "Syntax error: 'push int16(32 ;)'.
-Syntax error: 'pu int(32))'.
+test_vm "$(< $DATA_DIR/syntax_error.avm)" "Line 1: Syntax error: 'push int16(32 ;)'.
+Line 2: Syntax error: 'pu int(32))'.
 "
 
 test_vm "$(< $DATA_DIR/empty_stack_error.avm)" "Pop error: empty stack
