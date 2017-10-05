@@ -6,7 +6,7 @@
 //   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/09/27 13:43:17 by mc                #+#    #+#             //
-//   Updated: 2017/09/27 14:22:39 by mc               ###   ########.fr       //
+//   Updated: 2017/10/05 13:04:25 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -29,7 +29,7 @@
 #  define WARNING(s) std::cerr << CLR_YELLOW  "[WARNING] " CLR_RESET << s << std::endl
 #  define DEBUG(s)   std::cout << CLR_MAGENTA "[DEBUG] "   CLR_RESET << s << std::endl
 # else
-#  define MSG(s)     std::cout << s
+#  define MSG(s)     std::cout << s << std::endl
 #  define ERROR(s)   std::cerr << s << std::endl
 #  define WARNING(s) std::cerr << s << std::endl
 #  define DEBUG(s)   do {} while(0)
