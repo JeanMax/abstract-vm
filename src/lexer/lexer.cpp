@@ -6,7 +6,7 @@
 //   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2017/03/21 03:02:05 by mc                #+#    #+#             //
-//   Updated: 2017/10/05 17:36:17 by mc               ###   ########.fr       //
+//   Updated: 2017/11/21 12:41:12 by mc               ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -45,6 +45,10 @@ static bool read_loop(const char *filename, std::ifstream &file, bool interactiv
 {
     std::string   input;
     std::smatch   match;
+
+    if (line_count == LINES_LIMIT) {
+        throw Error<std::runtime_error>("Input too long.");
+    }
 
     if (filename ? file.eof() : !std::cin) {
         return ret;
